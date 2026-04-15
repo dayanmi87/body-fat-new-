@@ -1,33 +1,24 @@
 import OpenAI from "openai";
 
 export async function POST(req: Request) {
-  const { image } = await req.json();
+  try {
+    const { image } = await req.json();
 
-  const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
+    const openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
 
-  const response = await openai.responses.create({
-    model: "gpt-4.1-mini",
-    input: [
-      {
-        role: "user",
-        content: [
-          {
-            type: "input_text",
-            text: "Estimate body fat percentage for a male from this image. Return only a number.",
-          },
-          {
-            type: "input_image",
-            image_url: image,
-            detail: "auto",
-          },
-        ],
-      },
-    ],
-  });
+    const response = await openai.responses.create({
+      model: "gpt-4.1-mini",
+      input: `Estimate body fat percentage (just a number) for this image: ${image}`,
+    });
 
-  return Response.json({
-    result: response.output_text,
-  });
+    return Response.json({
+      result: response.output_text,
+    });
+  } catch (error: any) {
+    return Response.json({
+      error: error.message,
+    });
+  }
 }
