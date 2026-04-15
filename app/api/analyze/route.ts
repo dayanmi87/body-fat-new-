@@ -13,10 +13,14 @@ export async function POST(req: Request) {
       {
         role: "user",
         content: [
-          { type: "input_text", text: "Estimate body fat percentage for a male from this image. Return only a number." },
+          {
+            type: "input_text",
+            text: "Estimate body fat percentage for a male from this image. Return only a number.",
+          },
           {
             type: "input_image",
             image_url: image,
+            detail: "auto",
           },
         ],
       },
