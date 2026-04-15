@@ -10,3 +10,23 @@ export default function Home() {
     if (!file) return;
 
     const reader = new FileReader();
+    reader.onload = () => {
+      setImage(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  return (
+    <main style={{ padding: 20 }}>
+      <h1>Body Fat Visualizer</h1>
+
+      <input type="file" onChange={handleUpload} />
+
+      {image && (
+        <div>
+          <h3>Preview:</h3>
+          <img src={image} style={{ width: "100%", maxWidth: 300 }} />
+        </div>
+      )}
+    </main>
+  );
