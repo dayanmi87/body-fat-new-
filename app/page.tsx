@@ -20,7 +20,6 @@ export default function Home() {
   }
 
   async function analyzeImage() {
-    alert("clicked");
 
     if (!image) return;
 
