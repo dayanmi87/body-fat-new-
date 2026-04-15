@@ -20,6 +20,8 @@ export default function Home() {
   }
 
   async function analyzeImage() {
+    alert("clicked");
+
     if (!image) return;
 
     setLoading(true);
@@ -54,7 +56,7 @@ export default function Home() {
           <img src={image} style={{ width: "100%", maxWidth: 300 }} />
 
           <button onClick={analyzeImage} style={{ marginTop: 10 }}>
-            Analyze body fat
+            {loading ? "Analyzing..." : "Analyze body fat"}
           </button>
         </div>
       )}
