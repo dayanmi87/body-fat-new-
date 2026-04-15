@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function Home() {
   const [image, setImage] = useState<string | null>(null);
-  const [result, setResult] = useState<string>("");
+  const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
 
   function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -36,7 +36,7 @@ export default function Home() {
 
       const data = await res.json();
       setResult(data.result || "No result");
-    } catch (error) {
+    } catch (err) {
       setResult("Error analyzing image");
     }
 
@@ -51,22 +51,17 @@ export default function Home() {
 
       {image && (
         <div style={{ marginTop: 20 }}>
-          <h3>Preview:</h3>
-          <img
-            src={image}
-            alt="Preview"
-            style={{ width: "100%", maxWidth: 300, display: "block", marginBottom: 20 }}
-          />
+          <img src={image} style={{ width: "100%", maxWidth: 300 }} />
 
-          <button onClick={analyzeImage} disabled={loading}>
-            {loading ? "Analyzing..." : "Analyze body fat"}
+          <button onClick={analyzeImage} style={{ marginTop: 10 }}>
+            Analyze body fat
           </button>
         </div>
       )}
 
       {result && (
         <div style={{ marginTop: 20 }}>
-          <h3>Estimated body fat:</h3>
+          <h3>Result:</h3>
           <p>{result}</p>
         </div>
       )}
