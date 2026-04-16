@@ -20,11 +20,13 @@ export default function Home() {
   }
 
   async function analyzeImage() {
-
-    if (!image) return;
+    if (!image) {
+      setResult("No image selected");
+      return;
+    }
 
     setLoading(true);
-    setResult("");
+    setResult("Sending request...");
 
     try {
       const res = await fetch("/api/analyze", {
@@ -36,9 +38,14 @@ export default function Home() {
       });
 
       const data = await res.json();
-      setResult(data.result || "No result");
-    } catch (err) {
-      setResult("Error analyzing image");
+
+      if (!res.ok) {
+        setResult(`HTTP ${res.status}: ${data.error || "Unknown error"}`);
+      } else {
+        setResult(String(data.result || "No result"));
+      }
+    } catch (err: any) {
+      setResult(`Fetch error: ${err?.message || "Unknown fetch error"}`);
     }
 
     setLoading(false);
@@ -52,9 +59,13 @@ export default function Home() {
 
       {image && (
         <div style={{ marginTop: 20 }}>
-          <img src={image} style={{ width: "100%", maxWidth: 300 }} />
+          <img
+            src={image}
+            alt="Preview"
+            style={{ width: "100%", maxWidth: 300, display: "block", marginBottom: 12 }}
+          />
 
-          <button onClick={analyzeImage} style={{ marginTop: 10 }}>
+          <button onClick={analyzeImage}>
             {loading ? "Analyzing..." : "Analyze body fat"}
           </button>
         </div>
